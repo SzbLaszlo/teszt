@@ -1,0 +1,13 @@
+td{
+    border: solid 1px;
+    text-align: center;
+}
+.empty{
+    background-color: blue;
+}
+.missing{
+    background-color: red;
+}
+#me{
+    background-color: yellowgreen;
+}
