@@ -1,6 +1,9 @@
 <?php
 session_start();
 require 'db.inc.php';
+require 'model/ulesrend.php';
+
+$tanulo = new Ulesrend;
 
 if(isset($_POST['user']) and isset($_POST['pw'])){
   $loginError = '';
@@ -9,12 +12,13 @@ if(isset($_POST['user']) and isset($_POST['pw'])){
   if($loginError==''){
     $sql="SELECT id, nev, jelszo FROM ulesrend WHERE felhasznalonev='".$_POST['user']."'  ";
     if(!$result = $conn->query($sql)) echo $conn->error;
-
     if($result->num_rows > 0){
-      while($row=$result->fetch_assoc()){
-        if(md5($_POST['pw']) == $row['jelszo']){
+      if($row=$result->fetch_assoc())
+        $tanulo->set_user($row['id']. $conn);
+      
+        if(md5($_POST['pw']) == $tanulo->get_jelszo()){
             $_SESSION['id'] = $row['id'];
-            $_SESSION['nev'] = $row['nev'];
+            $_SESSION['nev'] = $tanulo->get_nev();
             header('Location: ulesrend.php');
             exit();
         }else $loginError .= 'Érvénytelen jelszó';
@@ -22,7 +26,7 @@ if(isset($_POST['user']) and isset($_POST['pw'])){
     }
     else $loginError .= 'Érvénytelen felhasználónév.';
   }
-}
+
 
 ?>
 <!doctype html>
