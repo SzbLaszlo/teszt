@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.inc.php';
+require 'includes/db.inc.php';
 require 'model/ulesrend.php';
 
 $tanulo = new Ulesrend;
@@ -42,12 +42,12 @@ if(isset($_POST['user']) and isset($_POST['pw'])){
 
 
     $title = "Belépés";
-    include 'htmlheader.inc.php';
+    include 'includes/htmlheader.inc.php';
 ?>
 <body>
 
     <?php
-    include 'menu.inc.php';
+    include 'includes/menu.inc.php';
     ?>
 
 <table>
