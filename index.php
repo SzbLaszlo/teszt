@@ -7,21 +7,32 @@
     require 'includes/functions.inc.php';
 
     $szoveg = "Belépés";
-    $link = "belepes.php";
+    $action = "belepes";
 
     if(!empty($_SESSION["id"])){
         $szoveg = $_SESSION["nev"].": Kilépés";
-        $link = "index.php?logout-1";
+        $action = "Kilepes";
     }
 
-    $menupontok = array('index' => "Főoldal", 'ulesrend' => "Ülésrend", $link => $szoveg);
+    $menupontok = array('index' => "Főoldal", 'ulesrend' => "Ülésrend", 'felhasznalo' => $szoveg);
 
     $page = 'index';
 
     if(isset($_REQUEST['page'])){
+        if($_REQUEST['page'] == 'felhasznalo'){
+            $szoveg = "Belépés";
+            $action = "belepes";
+
+            if(!empty($_SESSION['id'])){
+                $szoveg = $_SESSION["nev"].": Kilépés";
+                $action = "kilepes";
+            }
+
+        }            
         if(file_exists('controller/'.$_REQUEST['page'].'.php')){
             $page = $_REQUEST['page'];
         }
+    
     }
 
     $title = $menupontok[$page];
