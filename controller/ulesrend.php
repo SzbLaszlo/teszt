@@ -1,9 +1,10 @@
 <?php
 
 // form feldolgozása
+$hianyzo = new Hianyzo();
 
 if(!empty($_POST["hianyzo_id"])) {
-	$sql = "INSERT INTO hianyzok VALUES(".$_POST["hianyzo_id"].")";
+    $admin->set_id(1, $conn);
 	$result = $conn->query($sql);
 }
 elseif(!empty($_GET['nem_hianyzo'])) {
@@ -12,6 +13,7 @@ elseif(!empty($_GET['nem_hianyzo'])) {
 }
 
 //$hianyzok = getIds('hianyzok', $conn);
+$hianyzok = $hianyzo->lista($conn);
 
 $adminok = array(); // ebben leszek az adminok id-i felsorolva
 
