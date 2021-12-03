@@ -1,16 +1,12 @@
 <?php
 
-require '../includes/db.inc.php';
-require 'KijeloltFelhasznalo.php';
+require_once 'KijeloltFelhasznalo.php';
 
-    class Admin extends KijeloltFelhasznalo{
-        function __construct(){
-            $this->tableNev = 'adminok';
-        }
+class Admin extends Kijeloltfelhasznalok {
+    
+    function __construct() {
+        $this->tablaNev = 'adminok';
     }
+}
 
-    $admin = new Admin();
-
-    $admin->set_id(1, $conn);
-    echo $admin->get_id();
 ?>

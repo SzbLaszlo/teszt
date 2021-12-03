@@ -1,48 +1,52 @@
 <?php
-    session_start();
 
-    require 'includes/db.inc.php';
-    require 'model/Ulesrend.php';
-    $tanulo = new Ulesrend;
-    require 'includes/functions.inc.php';
+session_start();
 
-    $szoveg = "Belépés";
-    $action = "belepes";
+require 'includes/db.inc.php';
+require 'model/Ulesrend.php';
+$tanulo = new Ulesrend;
 
-    if(!empty($_SESSION["id"])){
+// default oldal
+$page = 'index';
+
+// kilépés végrehajtása
+if(!empty($_REQUEST['action'])) {
+	if($_REQUEST['action'] == 'kilepes') session_unset();
+}
+
+// ki vagy be vagyok lépve?
+if(!empty($_SESSION["id"])) {
         $szoveg = $_SESSION["nev"].": Kilépés";
-        $action = "Kilepes";
-    }
+        $action = "kilepes";
+}
+else {
+        $szoveg = "Belépés";
+        $action = "belepes";        
+} 
 
-    $menupontok = array('index' => "Főoldal", 'ulesrend' => "Ülésrend", 'felhasznalo' => $szoveg);
-
-    $page = 'index';
-
-    if(isset($_REQUEST['page'])){
-        if($_REQUEST['page'] == 'felhasznalo'){
-            $szoveg = "Belépés";
-            $action = "belepes";
-
-            if(!empty($_SESSION['id'])){
-                $szoveg = $_SESSION["nev"].": Kilépés";
-                $action = "kilepes";
-            }
-
-        }            
-        if(file_exists('controller/'.$_REQUEST['page'].'.php')){
-            $page = $_REQUEST['page'];
+// router
+if(isset($_REQUEST['page'])) {
+        if(file_exists('controller/'.$_REQUEST['page'].'.php')) {
+                $page = $_REQUEST['page']; 
         }
-    
-    }
+}
 
-    $title = $menupontok[$page];
+$menupontok = array(    'index' => "Főoldal", 
+                        'ulesrend' => "Ülésrend", 
+                        'felhasznalo' => $szoveg
+                );
 
-    include 'includes/htmlheader.inc.php';
-    ?>
-    <body>
-        <?php
-        include 'includes/menu.inc.php';
+$title = $menupontok[$page];
 
-    include 'controller/'.$page.'.php';
+include 'includes/htmlheader.inc.php';
 ?>
+<body>
+<?php
+
+include 'includes/menu.inc.php';
+include 'controller/'.$page.'.php';
+
+?>
+
 </body>
+</html>
